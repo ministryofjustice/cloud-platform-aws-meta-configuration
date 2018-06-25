@@ -1,4 +1,7 @@
 # Cloud Platform Aws Meta Configuration
+
+[![CircleCI](https://circleci.com/gh/ministryofjustice/cloud-platform-aws-meta-configuration.svg?style=svg)](https://circleci.com/gh/ministryofjustice/cloud-platform-aws-meta-configuration)
+
 Tools for configuration of the Cloud Platform AWS account
 
 ## Login to AWS

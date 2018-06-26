@@ -10,6 +10,7 @@ test_aws_federation() {
   cd aws_federation
   terraform init
   terraform validate
+  terraform fmt -check -diff
   cd -
 }
 

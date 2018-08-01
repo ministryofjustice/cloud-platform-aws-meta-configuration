@@ -29,7 +29,7 @@ resource "aws_elasticsearch_domain" "test" {
 
   ebs_options {
     ebs_enabled = "true"
-    volume_type = "standard"
+    volume_type = "gp2"
     volume_size = "16"
   }
 
@@ -77,7 +77,7 @@ resource "aws_elasticsearch_domain" "live" {
 
   ebs_options {
     ebs_enabled = "true"
-    volume_type = "standard"
+    volume_type = "gp2"
     volume_size = "32"
   }
 

@@ -25,6 +25,7 @@ resource "aws_elasticsearch_domain" "test" {
 
   cluster_config {
     instance_type = "t2.small.elasticsearch"
+    instance_count = "3"
   }
 
   ebs_options {
@@ -73,6 +74,7 @@ resource "aws_elasticsearch_domain" "live" {
 
   cluster_config {
     instance_type = "m4.large.elasticsearch"
+    instance_count = "3"
   }
 
   ebs_options {

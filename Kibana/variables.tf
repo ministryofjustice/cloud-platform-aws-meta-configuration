@@ -27,3 +27,18 @@ variable "allowed_live_ips" {
     "34.251.93.81/32"   = "live-0-c"
   }
 }
+
+variable "audit_domain" {
+  default = "cloud-platform-audit"
+}
+
+variable "allowed_audit_ips" {
+  type = "map"
+
+  default = {
+    "81.134.202.29/32"  = "office"
+    "52.17.133.167/32"  = "live-0-a"
+    "34.247.134.240/32" = "live-0-b"
+    "34.251.93.81/32"   = "live-0-c"
+  }
+}

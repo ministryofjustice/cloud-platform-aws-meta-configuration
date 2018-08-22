@@ -24,14 +24,14 @@ resource "aws_elasticsearch_domain" "test" {
   elasticsearch_version = "6.2"
 
   cluster_config {
-    instance_type = "t2.small.elasticsearch"
+    instance_type = "m4.large.elasticsearch"
     instance_count = "3"
   }
 
   ebs_options {
     ebs_enabled = "true"
     volume_type = "gp2"
-    volume_size = "32"
+    volume_size = "150"
   }
 
   advanced_options {

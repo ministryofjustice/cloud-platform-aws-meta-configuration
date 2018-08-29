@@ -6,6 +6,10 @@ terraform {
   }
 }
 
+provider "aws" {
+  region = "eu-west-1"
+}
+
 data "terraform_remote_state" "global" {
   backend = "s3"
 
@@ -20,11 +24,11 @@ data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
 
 resource "aws_elasticsearch_domain" "test" {
-  domain_name           = "${var.test_domain}"
+  domain_name           = "${local.test_domain}"
   elasticsearch_version = "6.2"
 
   cluster_config {
-    instance_type = "m4.large.elasticsearch"
+    instance_type  = "m4.large.elasticsearch"
     instance_count = "3"
   }
 
@@ -48,10 +52,10 @@ resource "aws_elasticsearch_domain" "test" {
         "AWS": "*"
       },
       "Action": "es:*",
-      "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${var.test_domain}/*",
+      "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${local.test_domain}/*",
       "Condition": {
         "IpAddress": {
-          "aws:SourceIp": ${jsonencode(keys(var.allowed_test_ips))}
+          "aws:SourceIp": ${jsonencode(keys(local.allowed_test_ips))}
         }
       }
     }
@@ -64,16 +68,16 @@ CONFIG
   }
 
   tags {
-    Domain = "${var.test_domain}"
+    Domain = "${local.test_domain}"
   }
 }
 
 resource "aws_elasticsearch_domain" "live" {
-  domain_name           = "${var.live_domain}"
+  domain_name           = "${local.live_domain}"
   elasticsearch_version = "6.2"
 
   cluster_config {
-    instance_type = "m4.large.elasticsearch"
+    instance_type  = "m4.large.elasticsearch"
     instance_count = "3"
   }
 
@@ -97,10 +101,10 @@ resource "aws_elasticsearch_domain" "live" {
         "AWS": "*"
       },
       "Action": "es:*",
-      "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${var.live_domain}/*",
+      "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${local.live_domain}/*",
       "Condition": {
         "IpAddress": {
-          "aws:SourceIp": ${jsonencode(keys(var.allowed_live_ips))}
+          "aws:SourceIp": ${jsonencode(keys(local.allowed_live_ips))}
         }
       }
     }
@@ -113,16 +117,16 @@ CONFIG
   }
 
   tags {
-    Domain = "${var.live_domain}"
+    Domain = "${local.live_domain}"
   }
 }
 
 resource "aws_elasticsearch_domain" "audit" {
-  domain_name           = "${var.audit_domain}"
+  domain_name           = "${local.audit_domain}"
   elasticsearch_version = "6.2"
 
   cluster_config {
-    instance_type = "m4.large.elasticsearch"
+    instance_type  = "m4.large.elasticsearch"
     instance_count = "2"
   }
 
@@ -146,10 +150,10 @@ resource "aws_elasticsearch_domain" "audit" {
         "AWS": "*"
       },
       "Action": "es:*",
-      "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${var.audit_domain}/*",
+      "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${local.audit_domain}/*",
       "Condition": {
         "IpAddress": {
-          "aws:SourceIp": ${jsonencode(keys(var.allowed_audit_ips))}
+          "aws:SourceIp": ${jsonencode(keys(local.allowed_audit_ips))}
         }
       }
     }
@@ -162,6 +166,6 @@ CONFIG
   }
 
   tags {
-    Domain = "${var.audit_domain}"
+    Domain = "${local.audit_domain}"
   }
 }

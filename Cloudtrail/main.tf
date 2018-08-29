@@ -7,31 +7,35 @@ terraform {
 }
 
 provider "aws" {
-    region = "eu-west-1"
+  region = "eu-west-1"
 }
 
 data "aws_caller_identity" "current" {}
 
 resource "aws_cloudtrail" "cloud-platform-cloudtrail" {
-  name                          = "cp-cloudtrail"
+  name                          = "cloud-platform-cloudtrail"
   s3_bucket_name                = "${aws_s3_bucket.cloudtrail-bucket.id}"
   include_global_service_events = true
   is_multi_region_trail         = true
   enable_log_file_validation    = true
+
   tags {
-        business-unit           = "${var.business-unit}"
-        owner                   = "${var.team_name}"
-        infrastructure-support  = "${var.infrastructure-support}"
-    }
+    business-unit          = "${var.business-unit}"
+    owner                  = "${var.team_name}"
+    infrastructure-support = "${var.infrastructure-support}"
+  }
 }
+
 resource "aws_s3_bucket" "cloudtrail-bucket" {
-  bucket        = "cloud-platform-cloudtrail-moj"
+  bucket        = "${var.cloudtrail_bucket_name}"
   force_destroy = false
+
   tags {
-        business-unit           = "${var.business-unit}"
-        owner                   = "${var.team_name}"
-        infrastructure-support  = "${var.infrastructure-support}"
-    }
+    business-unit          = "${var.business-unit}"
+    owner                  = "${var.team_name}"
+    infrastructure-support = "${var.infrastructure-support}"
+  }
+
   lifecycle_rule {
     id                                     = "logs-transition"
     prefix                                 = ""
@@ -43,16 +47,11 @@ resource "aws_s3_bucket" "cloudtrail-bucket" {
       storage_class = "STANDARD_IA"
     }
 
-    transition {
-      days          = 60
-      storage_class = "GLACIER"
-    }
-
     expiration {
       days = 365
     }
   }
-  
+
   policy = <<POLICY
 {
     "Version": "2012-10-17",
@@ -64,7 +63,7 @@ resource "aws_s3_bucket" "cloudtrail-bucket" {
               "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:GetBucketAcl",
-            "Resource": "arn:aws:s3:::cloud-platform-cloudtrail-moj"
+            "Resource": "arn:aws:s3:::${var.cloudtrail_bucket_name}"
         },
         {
             "Sid": "AWSCloudTrailWrite",
@@ -73,7 +72,7 @@ resource "aws_s3_bucket" "cloudtrail-bucket" {
               "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::cloud-platform-cloudtrail-moj/*",
+            "Resource": "arn:aws:s3:::${var.cloudtrail_bucket_name}/*",
             "Condition": {
                 "StringEquals": {
                     "s3:x-amz-acl": "bucket-owner-full-control"

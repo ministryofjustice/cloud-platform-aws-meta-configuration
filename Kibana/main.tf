@@ -149,7 +149,19 @@ resource "aws_elasticsearch_domain" "audit" {
       "Principal": {
         "AWS": "*"
       },
-      "Action": "es:*",
+      "Action":[ "es:AddTags",
+                "es:ESHttpHead",
+                "es:DescribeElasticsearchDomain",
+                "es:ESHttpPost",
+                "es:ESHttpGet",
+                "es:DescribeElasticsearchDomainConfig",
+                "es:ListTags",
+                "es:DescribeElasticsearchDomains",
+                "es:ListDomainNames",
+                "es:ListElasticsearchInstanceTypes",
+                "es:DescribeElasticsearchInstanceTypeLimits",
+                "es:ListElasticsearchVersions"
+      ],
       "Resource": "arn:aws:es:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:domain/${local.audit_domain}/*",
       "Condition": {
         "IpAddress": {

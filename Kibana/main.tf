@@ -157,7 +157,6 @@ resource "aws_elasticsearch_domain" "audit" {
                 "es:DescribeElasticsearchDomainConfig",
                 "es:ListTags",
                 "es:DescribeElasticsearchDomains",
-                "es:ESHttpPut",
                 "es:ListDomainNames",
                 "es:ListElasticsearchInstanceTypes",
                 "es:DescribeElasticsearchInstanceTypeLimits",

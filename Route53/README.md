@@ -26,7 +26,7 @@ $ Terraform apply
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| rroute53_domain | name of new hosted zone | string | - | yes |
+| route53_domain | name of new hosted zone | string | - | yes |
 
 
 ### Outputs

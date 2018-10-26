@@ -1,5 +1,5 @@
 variable "route53_domain" {
-default = "cloud-platform.justice.gov.uk"
+  default = "cloud-platform.justice.gov.uk"
 }
 
 variable "aws_region" {

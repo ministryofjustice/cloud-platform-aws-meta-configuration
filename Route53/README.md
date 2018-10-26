@@ -22,9 +22,6 @@ $ Terraform plan
 $ Terraform apply
 ```
 
-
-
-
 ### Inputs
 
 | Name | Description | Type | Default | Required |
@@ -38,3 +35,8 @@ $ Terraform apply
 |------|-------------|
 | name_servers | Name Servers of new Hosted Zone |
 | zone_id | AWS Zone ID of new Hosted Zone |
+
+
+Add the name servers for the created subdomain to the parent domain within the parent MOJ AWS account.
+
+For more information [click here](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/CreatingNewSubdomain.html) for the AWS offical documentation 

@@ -55,3 +55,7 @@ The following will be created:
 ### *** Additional Step ***
 
 Due to a missing reference in Terraform (CopyTags), once the dlm policy has been created, log into the console, find the policy under EC2 > EBS > Lifecycle Manager, highlight the policy and click modify snapshot. Enable the checkbox for `Copy Tags`
+
+### Restore Process
+
+Go to EC2 > EBS > Snapshots. Find the appopiate backups, all tags including name tag will be present for each PV backed up. Once selected, click Actions > Create Volume.  

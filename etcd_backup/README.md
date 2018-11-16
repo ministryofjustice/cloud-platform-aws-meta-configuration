@@ -52,10 +52,20 @@ The following will be created:
 |tags_to_add | SnapshotCreator:DLM |
 |target_tags | k8s.io/role/master:1 |
 
-### *** Additional Step ***
-
-Due to a missing reference in Terraform (CopyTags), once the dlm policy has been created, log into the console, find the policy under EC2 > EBS > Lifecycle Manager, highlight the policy and click modify snapshot. Enable the checkbox for `Copy Tags`
 
 ### Restore Process
 
-Go to EC2 > EBS > Snapshots. Find the appopiate backups, all tags including name tag will be present for each PV backed up. Once selected, click Actions > Create Volume.  
+In case the Kubernetes cluster fails in a way that too many master nodes can't access their etcd volumes it is impossible to get a etcd quorum.
+
+Kubernetes uses protokube to identify the right volumes for etcd. Therefore it is important to tag the EBS volumes with the correct tags after restoring them from a EBS snapshot.
+
+protokube will look for the following tags:
+
+`KubernetesCluster` containing the cluster name (e.g. `k8s.mycompany.tld`)
+`Name` containing the volume name (e.g. `eu-central-1a.etcd-main.k8s.mycompany.tld`)
+`k8s.io/etcd/main` containing the availability zone of the volume (e.g. `eu-central-1a/eu-central-1a`)
+`k8s.io/role/master` with the value `1`
+
+Go to EC2 > EBS > Snapshots. Find the appopiate backups, all tags including name tag will be present for each PV backed up. Once selected, click Actions > Create Volume. Click [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-restoring-volume.html) for offical AWS documentation. 
+
+After fully restoring the volume ensure that the old volume is no longer there, or you've removed the tags from the old volume. After restarting the master node Kubernetes should pick up the new volume and start running again.

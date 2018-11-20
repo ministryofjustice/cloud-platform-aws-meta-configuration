@@ -127,7 +127,7 @@ resource "aws_elasticsearch_domain" "audit" {
 
   cluster_config {
     instance_type  = "m4.large.elasticsearch"
-    instance_count = "2"
+    instance_count = "3"
   }
 
   ebs_options {
